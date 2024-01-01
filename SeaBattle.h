@@ -31,7 +31,7 @@ void GameRender(int plr[12][12], bool ShowShip) {
 			for (int j = 1; j < 11; j++) {
 				if (ShowShip == true) {
 					if (plr[i][j] == 5 || plr[i][j] == 0) {
-						SetConsoleTextAttribute(hConsole, 9);
+						SetConsoleTextAttribute(hConsole, 9); 
 						for (int i = 0; i < 4; i++) printf("%c", 177);
 						SetConsoleTextAttribute(hConsole, 7);
 					}
@@ -43,7 +43,7 @@ void GameRender(int plr[12][12], bool ShowShip) {
 				}
 				else {
 					if (plr[i][j] == 1) {
-						SetConsoleTextAttribute(hConsole, 9);//8);
+						SetConsoleTextAttribute(hConsole, 9);
 						for (int i = 0; i < 4; i++) printf("%c", 177);
 						SetConsoleTextAttribute(hConsole, 7);
 					}
@@ -278,7 +278,13 @@ int Attack(int plr[12][12], bool isBot) {
 cycle:
 	GameRender(plr, false);
 	//ends funcion execution if all ships are destroyed.
-	if (dstr1+dstr2+dstr>=20) { return dstr; }
+	int count = 0;
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 12; j++) {
+			plr[i][j] == 1 ? count++ : false;
+		}
+	}
+	if (count == 0) return dstr;
 	if (isBot==true) {
 	//bot AI has 3 stages. 
 	// Firstly, he randomly shoots to hit the ships
