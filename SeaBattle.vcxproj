@@ -147,6 +147,15 @@
     <Image Include="..\..\..\Desktop\Untitled-3.ico" />
     <Image Include="icon.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="sounds\destroy.wav" />
+    <Media Include="sounds\hit.wav" />
+    <Media Include="sounds\loop1.wav" />
+    <Media Include="sounds\loop2.wav" />
+    <Media Include="sounds\loop3.wav" />
+    <Media Include="sounds\tada.wav" />
+    <Media Include="sounds\water.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

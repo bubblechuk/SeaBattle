@@ -43,7 +43,8 @@ void GameRender(int plr[12][12], bool ShowShip) {
 				}
 				else {
 					if (plr[i][j] == 1) {
-						SetConsoleTextAttribute(hConsole, 9);
+						//8 for debugging purpouses
+						SetConsoleTextAttribute(hConsole, 9); 
 						for (int i = 0; i < 4; i++) printf("%c", 177);
 						SetConsoleTextAttribute(hConsole, 7);
 					}
@@ -97,8 +98,8 @@ int ShipPlacer(int plr[12][12], char pos[3], int shipsize) {
 		//range of allowed values
 		for (int i = -1; i < shipsize + 1; i++) {
 			for (int j = -1; j < 2; j++) {
-				if (num + i < 0 || num + i > 11 || ltr + j < 0 || ltr + j > 11) { printf("Number Override Error\n"); return 0; }
-				else if (plr[num + i][ltr + j] == 1) { printf("Nearby Ship Error\n"); return 0; }
+				if (num + i < 0 || num + i > 11 || ltr + j < 0 || ltr + j > 11) {   printf("                           Number Override Error\n"); Sleep(500); return 0; }
+				else if (plr[num + i][ltr + j] == 1) {  printf("                           Nearby Ship Error\n"); Sleep(500); return 0; }
 			}
 		}
 		//creating a zone around the ships to prevent them from merging
@@ -116,8 +117,8 @@ int ShipPlacer(int plr[12][12], char pos[3], int shipsize) {
 	case ('h'): {
 		for (int i = -1; i < shipsize + 1; i++) {
 			for (int j = -1; j < 2; j++) {
-				if (ltr + i < 0 || ltr + i > 11 || num + j < 0 || num + j > 11) { printf("Number Override Error\n"); return 0; }
-				else if (plr[num + j][ltr + i] == 1) { printf("Nearby Ship Error\n"); return 0; }
+				if (ltr + i < 0 || ltr + i > 11 || num + j < 0 || num + j > 11) {  printf("                           Number Override Error\n"); Sleep(500); return 0; }
+				else if (plr[num + j][ltr + i] == 1) { printf("                           Nearby Ship Error\n"); Sleep(500); return 0; }
 			}
 		}
 		for (int i = -1; i < shipsize + 1; i++) {
@@ -203,7 +204,7 @@ int ShipManager(int plr[12][12]) {
 		switch (ch) {
 		case '4': {
 			if (ships[3] == 1) {
-				printf("Only 1 ship4 is allowed!\n"); break;
+				printf("                           Only 1 ship4 is allowed!\n"); break;
 			}
 			printf("                           Input coordinates: ");
 			static char pos[3]; scanf("%s", pos);
@@ -213,7 +214,7 @@ int ShipManager(int plr[12][12]) {
 		}
 		case '3': {
 			if (ships[2] == 2) {
-				printf("Only 2 ship3 is allowed!\n"); break;
+				printf("                           Only 2 ship3 is allowed!\n"); break;
 			}
 			printf("                           Input coordinates: ");
 			static char pos[3]; scanf("%s", pos);
@@ -223,7 +224,7 @@ int ShipManager(int plr[12][12]) {
 		}
 		case '2': {
 			if (ships[1] == 3) {
-				printf("Only 3 ship2 is allowed!\n"); break;
+				printf("                           Only 3 ship2 is allowed!\n"); break;
 			}
 			printf("                           Input coordinates: ");
 			static char pos[3]; scanf("%s", pos);
@@ -233,7 +234,7 @@ int ShipManager(int plr[12][12]) {
 		}
 		case '1': {
 			if (ships[0] == 4) {
-				printf("Only 4 ship1 is allowed!\n"); break;
+				printf("                           Only 4 ship1 is allowed!\n"); break;
 			}
 			printf("                           Input coordinates: ");
 			static char pos[3]; scanf("%s", pos);
@@ -286,6 +287,7 @@ cycle:
 	}
 	if (count == 0) return dstr;
 	if (isBot==true) {
+		Sleep(500);
 	//bot AI has 3 stages. 
 	// Firstly, he randomly shoots to hit the ships
 	if (btmp[2] == -1) {
@@ -302,7 +304,7 @@ cycle:
 			if(plr[num][ltr]==7 || plr[num][ltr]==6) {
 				goto botcycle;
 			}
-			BotCoordinatesHandler(num-1);
+			BotCoordinatesHandler(num);
 			shiptmp[0]='v';
 			break; 
 		}
@@ -312,7 +314,7 @@ cycle:
 			if(plr[num][ltr]==7 || plr[num][ltr]==6) {
 				goto botcycle;
 			}
-			BotCoordinatesHandler(num+1);
+			BotCoordinatesHandler(num);
 			shiptmp[0]='v';
 			break; 
 		}
@@ -322,7 +324,7 @@ cycle:
 			if(plr[num][ltr]==7 || plr[num][ltr]==6) {
 				goto botcycle;
 			}
-			BotCoordinatesHandler(ltr-1);
+			BotCoordinatesHandler(ltr);
 			shiptmp[0]='h';
 			break; 
 		}
@@ -332,7 +334,7 @@ cycle:
 			if(plr[num][ltr]==7 || plr[num][ltr]==6) {
 				goto botcycle;
 			}
-			BotCoordinatesHandler(ltr+1);
+			BotCoordinatesHandler(ltr);
 			shiptmp[0]='h';
 			break; 
 		}
@@ -342,18 +344,17 @@ cycle:
 	if (btmp[2]==-2) {
 			switch(shiptmp[0]) {
 			case 'v': {
-				if (plr[shiptmp[q]][ltr] == 6 && q < 4) q = 4;
-				if (plr[shiptmp[q]][ltr] == 6 && q > 4) btmp[2] = -1;
+				if ((plr[shiptmp[q]][ltr] == 6 || plr[shiptmp[q]][ltr] == 0) && q < 4) q = 4;
+				if ((plr[shiptmp[q]][ltr] == 6 || plr[shiptmp[q]][ltr] == 0) && q > 4) btmp[2] = -1;
 				else {
 				num=shiptmp[q];
 				q++;
-				
 				}
 				break;
 			}
 			case 'h': {
-				if (plr[num][shiptmp[q]] == 6 && q < 4) q = 4;
-				if (plr[num][shiptmp[q]] == 6 && q > 4) btmp[2]=-1;
+				if ((plr[num][shiptmp[q]] == 6 || plr[num][shiptmp[q]] == 0) && q < 4) q = 4;
+				if ((plr[num][shiptmp[q]] == 6 || plr[num][shiptmp[q]] == 0) && q > 4) btmp[2]= -1;
 				else {
 				ltr=shiptmp[q];
 				q++;
@@ -376,9 +377,9 @@ cycle:
 	// 0 is for empty cell
 	case 0: { PlaySound(MAKEINTRESOURCE(IDR_WAVE7), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);  plr[num][ltr] = 6; break;}
 	// 6 is for empty cell that has been shoot already
-	case 6: { btmp[2] = -1;  goto cycle; }
+	case 6: { btmp[2] != -2 ? btmp[2] = -1 : false;  goto cycle; }
 	// 7 is for ship part that was destroyed already
-	case 7: { btmp[2] = -1;  goto cycle;  }
+	case 7: { btmp[2] != -2 ? btmp[2] = -1 : false;  goto cycle;  }
 	// 1 is for ship part that was never touched
 	case 1: {
 		plr[num][ltr] = 7;
@@ -399,9 +400,8 @@ cycle:
 				if (plr[num + i][ltr] == 0 || plr[num + i][ltr] == 6) { break; }
 				plr[num + i][ltr] == 1 ? sh++ : false;
 			}
-			for (int i = 1; i < 4; i++) {
-				if (plr[num - i][ltr] == 0 || plr[num - i][ltr] == 6) { break; }
-				tmp = num - i;
+			for (int i = 1; i < 5; i++) {
+				if (plr[num - i][ltr] == 0 || plr[num - i][ltr] == 6) { tmp = num - i + 1; break; }
 				plr[num - i][ltr] == 1 ? sh++ : false;
 			}
 			//if no ship parts remaining, start drawing a zone around the whole ship
@@ -439,9 +439,8 @@ cycle:
 				if (plr[num][ltr + i] == 0 || plr[num][ltr + i] == 6) { break; } 
 				plr[num][ltr + i] == 1 ? sh++ : false;
 			}
-			for (int i = 1; i < 4; i++) {
-				if (plr[num][ltr - i] == 0 || plr[num][ltr - i] == 6) { break; }
-				tmp = ltr - i;
+			for (int i = 1; i < 5; i++) {
+				if (plr[num][ltr - i] == 0 || plr[num][ltr - i] == 6) { tmp = ltr - i + 1; break; }
 				plr[num][ltr - i] == 1 ? sh++ : false;
 				}
 			if (sh == 0) {

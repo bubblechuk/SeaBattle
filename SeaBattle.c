@@ -5,12 +5,7 @@
 #include <time.h>
 #include "seabattle.h"
 #include "resource.h"
-void exit() {
-	PlaySound(NULL, NULL, 0);
-	MessageBoxW(NULL, (LPCWSTR)L"Release by bubblechuk.", (LPCWSTR)L"See you later!", MB_ICONINFORMATION | MB_OK | MB_DEFBUTTON1); 
-}
 int main() { //530x150
-	atexit(exit);
 	srand(time(NULL));
 	switch (rand() % (2 + 1 - 0) + 0) {
 	case 0: { PlaySound(MAKEINTRESOURCE(IDR_WAVE1), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC | SND_LOOP); break; }
@@ -39,7 +34,8 @@ int main() { //530x150
 	printf("     |_.__/ \\__,_|_.__/|_.__/|_|\\___|\\___|_| |_|\\__,_|_|\\_\\");
 	Sleep(5000);
 	while (true) {
-		SetConsoleTitleW((LPCWSTR)L"SeaBattle 1.0 Release Сandidate ");
+		SetConsoleTextAttribute(hConsole, 7);
+		SetConsoleTitleW((LPCWSTR)L"SeaBattle 1.0");
 		ShowScrollBar(hwnd, SB_VERT, 0);
 		MoveWindow(hwnd, 10, 10, 633, 471, TRUE);
 		system("cls");
@@ -56,7 +52,7 @@ int main() { //530x150
 		printf("\n");
 		printf("      ___________________________\n");
 		printf("     |                          |\n");
-		printf("     |         PVE Mode         |         BETA. Play with a bot. (2)\n");
+		printf("     |         PVE Mode         |         Play with a bot. (2)\n");
 		printf("     |__________________________|\n");
 		printf("\n");
 		printf("      __________________________\n");
@@ -144,11 +140,11 @@ int main() { //530x150
 			break;
 		}
 		case '3': {
-			system("start www.github.com/bubblechuk");
+			system("start https://github.com/bubblechuk/SeaBattle/issues");
 			break; 
 		}
-		case '4': {return 0; }
+		case '4': { return 0; }
 		}
 		}
-	Sleep(500);
+	//Sleep(500);
 }//27 75  8 32
