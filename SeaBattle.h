@@ -4,12 +4,12 @@
 #include <Windows.h>
 #include <time.h>
 #include "resource.h"
-int shiptmp[7], btmp[3] = {-1, -1, -1};
+int shiptmp[7], btmp[3] = { -1, -1, -1 };
 int dstr1 = 0, dstr2 = 0;
 //BotCoordinatesHandler is the part of Attack() and being used for defining possible ship location in PvE mode.
 void BotCoordinatesHandler(int coords) {
 	int j = 1;
-	for (int i = 1; i<4; i++) shiptmp[i]=coords+i;
+	for (int i = 1; i < 4; i++) shiptmp[i] = coords + i;
 	for (int i = 4; i < 7; i++) shiptmp[i] = coords + (i - (i + (j++)));
 }
 //GameRender() renders game field in the console screen, use ShowShip to define whether to show ships or not.
@@ -31,7 +31,7 @@ void GameRender(int plr[12][12], bool ShowShip) {
 			for (int j = 1; j < 11; j++) {
 				if (ShowShip == true) {
 					if (plr[i][j] == 5 || plr[i][j] == 0) {
-						SetConsoleTextAttribute(hConsole, 9); 
+						SetConsoleTextAttribute(hConsole, 9);
 						for (int i = 0; i < 4; i++) printf("%c", 177);
 						SetConsoleTextAttribute(hConsole, 7);
 					}
@@ -44,7 +44,7 @@ void GameRender(int plr[12][12], bool ShowShip) {
 				else {
 					if (plr[i][j] == 1) {
 						//8 for debugging purpouses
-						SetConsoleTextAttribute(hConsole, 9); 
+						SetConsoleTextAttribute(hConsole, 9);
 						for (int i = 0; i < 4; i++) printf("%c", 177);
 						SetConsoleTextAttribute(hConsole, 7);
 					}
@@ -93,13 +93,13 @@ int ShipPlacer(int plr[12][12], char pos[3], int shipsize) {
 	int ltr = pos[0] - 96, num = pos[1] - 48;
 	num == 0 ? num = 10 : false;
 	switch (pos[2]) {
-	//v - vertical, h horizontal 
+		//v - vertical, h horizontal 
 	case ('v'): {
 		//range of allowed values
 		for (int i = -1; i < shipsize + 1; i++) {
 			for (int j = -1; j < 2; j++) {
-				if (num + i < 0 || num + i > 11 || ltr + j < 0 || ltr + j > 11) {   printf("                           Number Override Error\n"); Sleep(500); return 0; }
-				else if (plr[num + i][ltr + j] == 1) {  printf("                           Nearby Ship Error\n"); Sleep(500); return 0; }
+				if (num + i < 0 || num + i > 11 || ltr + j < 0 || ltr + j > 11) { printf("                           Number Override Error\n"); Sleep(500); return 0; }
+				else if (plr[num + i][ltr + j] == 1) { printf("                           Nearby Ship Error\n"); Sleep(500); return 0; }
 			}
 		}
 		//creating a zone around the ships to prevent them from merging
@@ -117,7 +117,7 @@ int ShipPlacer(int plr[12][12], char pos[3], int shipsize) {
 	case ('h'): {
 		for (int i = -1; i < shipsize + 1; i++) {
 			for (int j = -1; j < 2; j++) {
-				if (ltr + i < 0 || ltr + i > 11 || num + j < 0 || num + j > 11) {  printf("                           Number Override Error\n"); Sleep(500); return 0; }
+				if (ltr + i < 0 || ltr + i > 11 || num + j < 0 || num + j > 11) { printf("                           Number Override Error\n"); Sleep(500); return 0; }
 				else if (plr[num + j][ltr + i] == 1) { printf("                           Nearby Ship Error\n"); Sleep(500); return 0; }
 			}
 		}
@@ -251,13 +251,13 @@ int ShipManager(int plr[12][12]) {
 			GameRender(plr, true);
 			break;
 		}
-		//13 is for Enter. Enters the game if all ships are placed.
-		case 13 : {
-					if (ships[3] == 1 && ships[2] == 2 && ships[1] == 3 && ships[0] == 4) return 1;
-					else printf("Place ALL ships to enter!");
-					break;
-				}
-		//27 is for Escape button. Returns game to main menu.
+				//13 is for Enter. Enters the game if all ships are placed.
+		case 13: {
+			if (ships[3] == 1 && ships[2] == 2 && ships[1] == 3 && ships[0] == 4) return 1;
+			else printf("Place ALL ships to enter!");
+			break;
+		}
+			   //27 is for Escape button. Returns game to main menu.
 		case 27: {
 			switch (rand() % (2 + 1 - 0) + 0) {
 			case 0: { PlaySound(MAKEINTRESOURCE(IDR_WAVE1), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC | SND_LOOP); break; }
@@ -267,18 +267,17 @@ int ShipManager(int plr[12][12]) {
 			return 0;
 		}
 		}
-		
+
 	}
 }
 //Attack() is for managing attacking actions during the game.
+//Attack() is for managing attacking actions during the game.
 int Attack(int plr[12][12], bool isBot) {
-
-	//THIS CODE IS COMPLETE BULLSHIT. IT NEEDS TO BE DEBUGGED!
 	srand(time(NULL));
-	int dstr = 0, num = btmp[0], ltr=btmp[1], q = 1;
+	int dstr = 0, num = btmp[0], ltr = btmp[1], q = 1;
 cycle:
 	GameRender(plr, false);
-	//ends funcion execution if all ships are destroyed.
+	//ends function execution if all ships are destroyed.
 	int count = 0;
 	for (int i = 0; i < 12; i++) {
 		for (int j = 0; j < 12; j++) {
@@ -286,83 +285,84 @@ cycle:
 		}
 	}
 	if (count == 0) return dstr;
-	if (isBot==true) {
+	if (isBot == true) {
+		//bot AI has 3 stages. 
+		// Firstly, he randomly shoots to hit the ships
+		if (btmp[2] == -1) {
+			ltr = rand() % (10 + 1 - 1) + 1;
+			num = rand() % (10 + 1 - 1) + 1;
+			if (plr[num][ltr] == 6 || plr[num][ltr] == 7) goto cycle;
+		}
 		Sleep(500);
-	//bot AI has 3 stages. 
-	// Firstly, he randomly shoots to hit the ships
-	if (btmp[2] == -1) {
-		ltr = rand() % (10 + 1 - 1) + 1;
-		num = rand() % (10 + 1 - 1) + 1;
-	}
-	//Secondly it searches for another ship part whether vertical or horizontal
-	if (btmp[2]==0) {
+		//Secondly it searches for another ship part whether vertical or horizontal
+		if (btmp[2] == 0) {
 		botcycle:
-		switch (rand() % (3 + 1 - 0) + 0) {
-		case 0: { 
-			num = btmp[0] + 1; 
-			ltr = btmp[1]; 
-			if(plr[num][ltr]==7 || plr[num][ltr]==6) {
-				goto botcycle;
+			switch (rand() % (3 + 1 - 0) + 0) {
+			case 0: {
+				num = btmp[0] + 1;
+				ltr = btmp[1];
+				if (plr[num][ltr] == 7 || plr[num][ltr] == 6) {
+					goto botcycle;
+				}
+				BotCoordinatesHandler(num);
+				shiptmp[0] = 'v';
+				break;
 			}
-			BotCoordinatesHandler(num);
-			shiptmp[0]='v';
-			break; 
-		}
-		case 1: { 
-			num = btmp[0] - 1; 
-			ltr = btmp[1];
-			if(plr[num][ltr]==7 || plr[num][ltr]==6) {
-				goto botcycle;
+			case 1: {
+				num = btmp[0] - 1;
+				ltr = btmp[1];
+				if (plr[num][ltr] == 7 || plr[num][ltr] == 6) {
+					goto botcycle;
+				}
+				BotCoordinatesHandler(num);
+				shiptmp[0] = 'v';
+				break;
 			}
-			BotCoordinatesHandler(num);
-			shiptmp[0]='v';
-			break; 
-		}
-		case 2: {
-			num = btmp[0]; 
-			ltr = btmp[1] + 1;
-			if(plr[num][ltr]==7 || plr[num][ltr]==6) {
-				goto botcycle;
+			case 2: {
+				num = btmp[0];
+				ltr = btmp[1] + 1;
+				if (plr[num][ltr] == 7 || plr[num][ltr] == 6) {
+					goto botcycle;
+				}
+				BotCoordinatesHandler(ltr);
+				shiptmp[0] = 'h';
+				break;
 			}
-			BotCoordinatesHandler(ltr);
-			shiptmp[0]='h';
-			break; 
-		}
-		case 3: { 
-			num = btmp[0]; 
-			ltr = btmp[1] - 1; 
-			if(plr[num][ltr]==7 || plr[num][ltr]==6) {
-				goto botcycle;
+			case 3: {
+				num = btmp[0];
+				ltr = btmp[1] - 1;
+				if (plr[num][ltr] == 7 || plr[num][ltr] == 6) {
+					goto botcycle;
+				}
+				BotCoordinatesHandler(ltr);
+				shiptmp[0] = 'h';
+				break;
 			}
-			BotCoordinatesHandler(ltr);
-			shiptmp[0]='h';
-			break; 
+			}
 		}
-		}
-	}
-	//And finally, it uses BotCoordinatesHandler, to get coordinates according to ship orientation
-	if (btmp[2]==-2) {
-			switch(shiptmp[0]) {
+		//And finally, it uses BotCoordinatesHandler, to get coordinates according to ship orientation
+		if (btmp[2] == -2) {
+			switch (shiptmp[0]) {
 			case 'v': {
 				if ((plr[shiptmp[q]][ltr] == 6 || plr[shiptmp[q]][ltr] == 0) && q < 4) q = 4;
 				if ((plr[shiptmp[q]][ltr] == 6 || plr[shiptmp[q]][ltr] == 0) && q > 4) btmp[2] = -1;
 				else {
-				num=shiptmp[q];
-				q++;
+					num = shiptmp[q];
+					q++;
 				}
 				break;
 			}
 			case 'h': {
 				if ((plr[num][shiptmp[q]] == 6 || plr[num][shiptmp[q]] == 0) && q < 4) q = 4;
-				if ((plr[num][shiptmp[q]] == 6 || plr[num][shiptmp[q]] == 0) && q > 4) btmp[2]= -1;
+				if ((plr[num][shiptmp[q]] == 6 || plr[num][shiptmp[q]] == 0) && q > 4) btmp[2] = -1;
 				else {
-				ltr=shiptmp[q];
-				q++;
+					ltr = shiptmp[q];
+					q++;
 				}
 				break;
 			}
-	}
-	}
+			}
+		}
 	}
 	else {
 		printf("                           Input coordinates: ");
@@ -374,13 +374,13 @@ cycle:
 	num == 0 ? num = 10 : false;
 	//this switch case is for defining what to do if meets following value
 	switch (plr[num][ltr]) {
-	// 0 is for empty cell
-	case 0: { PlaySound(MAKEINTRESOURCE(IDR_WAVE7), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);  plr[num][ltr] = 6; break;}
-	// 6 is for empty cell that has been shoot already
+		// 0 is for empty cell
+	case 0: { PlaySound(MAKEINTRESOURCE(IDR_WAVE7), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);  plr[num][ltr] = 6; break; }
+		  // 6 is for empty cell that has been shoot already
 	case 6: { btmp[2] != -2 ? btmp[2] = -1 : false;  goto cycle; }
-	// 7 is for ship part that was destroyed already
+		  // 7 is for ship part that was destroyed already
 	case 7: { btmp[2] != -2 ? btmp[2] = -1 : false;  goto cycle;  }
-	// 1 is for ship part that was never touched
+		  // 1 is for ship part that was never touched
 	case 1: {
 		plr[num][ltr] = 7;
 		if (isBot == true) {
@@ -436,13 +436,13 @@ cycle:
 			PlaySound(MAKEINTRESOURCE(IDR_WAVE5), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
 			int sh = 0, tmp = 0;
 			for (int i = 0; i < 4; i++) {
-				if (plr[num][ltr + i] == 0 || plr[num][ltr + i] == 6) { break; } 
+				if (plr[num][ltr + i] == 0 || plr[num][ltr + i] == 6) { break; }
 				plr[num][ltr + i] == 1 ? sh++ : false;
 			}
 			for (int i = 1; i < 5; i++) {
 				if (plr[num][ltr - i] == 0 || plr[num][ltr - i] == 6) { tmp = ltr - i + 1; break; }
 				plr[num][ltr - i] == 1 ? sh++ : false;
-				}
+			}
 			if (sh == 0) {
 				PlaySound(MAKEINTRESOURCE(IDR_WAVE6), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
 				int j = 0;
@@ -503,7 +503,7 @@ void Game(int plr1[12][12], int plr2[12][12], bool isBot) {
 		}
 		else {
 			if (isBot == false) {
-				
+
 				SetConsoleTitleW((LPCWSTR)L"Player 2, attack!");
 				dstr2 += Attack(plr1, false);
 			}
@@ -517,7 +517,7 @@ void Game(int plr1[12][12], int plr2[12][12], bool isBot) {
 		if (dstr1 >= 20) {
 			Sleep(10);
 			PlaySound(MAKEINTRESOURCE(IDR_WAVE4), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
-			printf("Player 1 wins!\n");
+			printf("                           Player 1 wins!\n");
 			system("pause");
 			switch (rand() % (2 + 1 - 0) + 0) {
 			case 0: { PlaySound(MAKEINTRESOURCE(IDR_WAVE1), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC | SND_LOOP); break; }
@@ -530,7 +530,7 @@ void Game(int plr1[12][12], int plr2[12][12], bool isBot) {
 		if (dstr2 >= 20) {
 			Sleep(10);
 			PlaySound(MAKEINTRESOURCE(IDR_WAVE4), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
-			isBot==true?printf("Bot wins!\n") : printf("Player 2 wins!\n");
+			isBot == true ? printf("                           Bot wins!\n") : printf("                           Player 2 wins!\n");
 			system("pause");
 			switch (rand() % (2 + 1 - 0) + 0) {
 			case 0: { PlaySound(MAKEINTRESOURCE(IDR_WAVE1), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC | SND_LOOP); break; }
@@ -542,3 +542,4 @@ void Game(int plr1[12][12], int plr2[12][12], bool isBot) {
 
 	}
 }
+

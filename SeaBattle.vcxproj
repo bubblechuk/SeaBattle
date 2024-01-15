@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="SeaBattle.h" />
+    <ClInclude Include="SeaBattleGPT.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SeaBattle.rc" />

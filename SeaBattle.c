@@ -57,7 +57,7 @@ int main() { //530x150
 		printf("\n");
 		printf("      __________________________\n");
 		printf("     |                          |\n");
-		printf("     |        Report Bug        |         Find a bug? Report it! (3)\n");
+		printf("     |        Report Bug        |         Found a bug? Report it! (3)\n");
 		printf("     |__________________________|\n");
 		printf("\n");
 		printf("      __________________________\n");
@@ -93,7 +93,7 @@ int main() { //530x150
 			printf("\n                      ");  system("pause");
 			PlaySoundW(NULL, NULL, 0);
 			SetConsoleTitleW((LPCWSTR)L"Player 1, place your ships! Press Esc to exit to main menu!");
-			if (ShipManager(plr1) == 0) {break; }
+			if (ShipManager(plr1) == 0) { break; }
 			SetConsoleTitleW((LPCWSTR)L"Player 2, place your ships! Press Esc to exit to main menu!");
 			if (ShipManager(plr2) == 0) { break; }
 			Game(plr1, plr2, false);
@@ -125,7 +125,7 @@ int main() { //530x150
 			PlaySoundW(NULL, NULL, 0);
 			SetConsoleTitleW((LPCWSTR)L"Place your ships! Press Esc to exit to main menu!");
 			if (ShipManager(plr1) == 0) { break; }
-			int ships[4] = {0, 0, 0, 0};
+			int ships[4] = { 0, 0, 0, 0 };
 			for (int i = 0; i < 12; i++) {
 				for (int j = 0; j < 12; j++) {
 					plr2[i][j] = 0;
@@ -133,7 +133,7 @@ int main() { //530x150
 			}
 			for (int i = 4; i > 0; i--) {
 				for (int j = i; j < 5; j++) {
-					botship(plr2, i, ships[i-1]);
+					botship(plr2, i, ships[i - 1]);
 				}
 			}
 			Game(plr1, plr2, true);
@@ -141,10 +141,10 @@ int main() { //530x150
 		}
 		case '3': {
 			system("start https://github.com/bubblechuk/SeaBattle/issues");
-			break; 
+			break;
 		}
 		case '4': { return 0; }
 		}
-		}
-	//Sleep(500);
-}//27 75  8 32
+	}
+	Sleep(500);
+}
