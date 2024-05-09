@@ -2,6 +2,7 @@
 // Microsoft Visual C++ generated include file.
 // Used by SeaBattle.rc
 //
+//
 #define IDR_WAVE1                       104
 #define IDI_ICON1                       107
 #define IDR_ACCELERATOR1                108

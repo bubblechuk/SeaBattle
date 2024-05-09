@@ -3,9 +3,9 @@
 #include <conio.h>
 #include <Windows.h>
 #include <time.h>
-#include "seabattle.h"
 #include "resource.h"
-int main() { //530x150
+#include "SeaBattle.h"
+int main() {
 	srand(time(NULL));
 	switch (rand() % (2 + 1 - 0) + 0) {
 	case 0: { PlaySound(MAKEINTRESOURCE(IDR_WAVE1), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC | SND_LOOP); break; }
@@ -143,8 +143,7 @@ int main() { //530x150
 			system("start https://github.com/bubblechuk/SeaBattle/issues");
 			break;
 		}
-		case '4': { return 0; }
+		case '4': { exit(0); }
 		}
 	}
-	Sleep(500);
 }
